@@ -1,0 +1,277 @@
+<!--suppress ALL -->
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    table, td, th {
+        border: 1px solid black;
+        height: 50px;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div class="container">
+    <div class="first-step row">
+        <div class="col-sm-12 form-area">
+            <br style="border-bottom: solid; border-bottom-color: black;">
+            <div id="head">
+                <button style="height: 30px; width: 150px;" onclick="showScreen('login_as_admin')">Login As Admin</button>
+                <button style="height: 30px; width: 90px;" onclick="showScreen('status')">Check Status</button>
+                <button style="height: 30px; width: 90px;" onclick="showScreen('register')">Register</button>
+                <br/><br/>
+            </div>
+            <div id="admin_login">
+                <div style="background:#9e9e9e73; padding: 50px">
+                    <h2 style="border-bottom: solid;">Admin Login</h2>
+                    <div class="form-group row">
+                        <h3>
+                            User Name
+                            <input type="text" id="admin_user" style="width: 250px;"/>
+                        </h3>
+                    </div>
+                    <div class="form-group row">
+                        <h3>
+                            Password
+                            <input type="password" id="admin_pass" style="width: 250px;"/>
+                        </h3>
+                    </div>
+                    <button style="height: 30px; width: 90px;"onclick="loginAdmin()">Login </button>
+                </div>
+            </div>
+            <div id="admin_data">
+                <p id="admin_d"></p>
+            </div>
+            <div id="user_check_status">
+                <div style="background:#9e9e9e73; padding: 50px">
+                    <h2 style="border-bottom: solid;">Registration Status</h2>
+                    <div class="form-group row">
+                        <h3>
+                            Registration Number
+                            <input type="text" id="registration_number" style="width: 250px;"/>
+                        </h3>
+                    </div>
+                    <div class="form-group row">
+                        <h3>
+                            Contact Number
+                            <input type="text" id="reg_contact" style="width: 250px;"/>
+                        </h3>
+                    </div>
+                    <button style="height: 30px; width: 90px;" onclick="getRegistrationStatus()">Search</button>
+                </div>
+                <p id="search_result"></p>
+            </div>
+            <div id="user_form">
+                <div style="background:#9e9e9e73; padding: 50px">
+                    <h2 style="border-bottom: solid;">Entry Form</h2>
+                    <div class="form-group row">
+                        <h3>
+                            Full Name
+                            <input id="name" type="text" style="width: 250px;"/>
+                        </h3>
+                    </div>
+                    <div class="form-group row">
+                        <h3>
+                            Email
+                            <input id="email" type="email" style="width: 250px;"/>
+                        </h3>
+                    </div>
+                    <div class="form-group row">
+                        <h3>
+                            Contact
+                            <input id="contact" type="text" style="width: 250px;"/>
+                        </h3>
+                    </div>
+                    <div class="form-group row">
+                        <h3>
+                            Number Of Tickets
+                            <input id="no_of_tickets" type="number" style="width: 250px;" value="1"/>
+                        </h3>
+                    </div>
+                    <div class="form-group row">
+                        <h3>
+                            Registration Type
+                            <select id="r_type" name="r_type">
+                                <option value="Self">Self</option>
+                                <option value="Group">Group</option>
+                                <option value="Corporate">Corporate</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </h3>
+                    </div>
+                    <div class="form-group row">
+                        <button style="height: 30px; width: 90px;" onclick="showPreview()" id="prviewButton">Show Preview</button>
+                        <button style="height: 30px; width: 90px;" id="clearButton">Clear</button>
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 10px;"></div>
+        </div><br/><br/>
+        <div style="border: solid; border-width: 1px; padding: 10px;" id="previewDiv">
+            <h2>Preview</h2>
+            <div class="form-group row">
+                <p id="preview" ></p>
+                <button style="height: 30px; width: 90px;" onclick="submitForm()" id="prviewButton">Submit Form</button>
+            </div>
+        </div><br/><br/>
+        <div>
+            <p id="processingMessage"></p>
+            <p id="response"></p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var head = document.getElementById("head");
+    var adminLogin = document.getElementById("admin_login");
+    var userCheckStatus = document.getElementById("user_check_status");
+    var userForm = document.getElementById("user_form");
+    var adminData = document.getElementById("admin_data");
+    var x = document.getElementById("previewDiv");
+
+    adminLogin.style.display = "none";
+    userCheckStatus.style.display = "none";
+    userForm.style.display = "none";
+    adminData.style.display = "none";
+    x.style.display = "none";
+
+    const data = {};
+
+    function showScreen(screen) {
+        $("#processingMessage").text("");
+        $("#response").text("");
+        if(screen === 'login_as_admin'){
+            if(adminLogin.style.display = "none"){
+                adminLogin.style.display = "block";
+                userCheckStatus.style.display = "none";
+                userForm.style.display = "none";
+                x.style.display = "none";
+                adminData.style.display = "none";
+            } else {
+                adminLogin.style.display = "block";
+                userCheckStatus.style.display = "none";
+                userForm.style.display = "none";
+                x.style.display = "none";
+                adminData.style.display = "block";
+            }
+        } else if(screen === 'status'){
+            adminLogin.style.display = "none";
+            userCheckStatus.style.display = "block";
+            userForm.style.display = "none";
+            x.style.display = "none";
+            adminData.style.display = "none";
+        } else if(screen === 'register'){
+            adminLogin.style.display = "none";
+            userCheckStatus.style.display = "none";
+            userForm.style.display = "block";
+            x.style.display = "none";
+            adminData.style.display = "none";
+        }
+    }
+
+    function loginAdmin(){
+        $("#processingMessage").text("");
+        $("#response").text("");
+        var user = $("#admin_user").val().trim();
+        var pass = $("#admin_pass").val().trim();
+        if(user != '' && pass != ''){
+            $.get("http://localhost:3008/admin/fetch?user=" + user + "&pass=" + pass , function (data, status) {
+                adminData.style.display = "block";
+                var q = '';
+                for(var i=0; i<data.length; i++){
+                    q += "<tr><td>" + data[i].name + "</td><td> "+ data[i].reg_id +"</td></tr>"
+                }
+                $("#admin_data").html(
+                    "<center><table><tr><td>Name</td> <td>Registration Id</td></tr>" + q +
+                    "</table></center>"
+                );
+                $("#processingMessage").text("");
+                $("#response").text("");
+            }).fail(function (x) {
+                if(x.responseText.indexOf('Not auth to view this section') > -1) {
+                    $("#response").text("incorrect user name password");
+                } else {
+                    $("#response").text("server error try again later");
+                }
+                $("#processingMessage").text("");
+            });
+        }else{
+            alert('Please fill all the information');
+            $("#processingMessage").text("");
+            $("#response").text("");
+        }
+    }
+
+    function showPreview() {
+        data.name = $("#name").val();
+        data.email = $("#email").val();
+        data.contact = $("#contact").val();
+        data.r_type = $("#r_type").val();
+        data.no_of_tickets = $("#no_of_tickets").val();
+        if (data.name !== '' && data.email !== '' && data.contact !== '' && data.r_type !== '' && data.no_ticket !== ''){
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+            $("#preview").html(
+                "<center><table><tr><th>Name</th><th>"+ data.name
+                + "</th></tr> <tr><th>Email</th><th>" + data.email
+                + "</th></tr> <tr><th>Contact</th><th>"+ data.contact
+                + "</th></tr> <tr><th>Registration Type</th><th>" + data.r_type
+                + "</th></tr> <tr><th>No Of Ticket</th><th>" + data.no_of_tickets
+                + "</table></center>"
+            );
+        } else {
+            alert('Please fill all the information');
+        }
+    }
+
+    function submitForm() {
+        $("#processingMessage").text("Processing Request");
+        $("#response").text("");
+        $.post("http://localhost:3008/user/submit", data , function (data, status) {
+            $("#processingMessage").text("");
+            if(status == 'success'){
+                $("#processingMessage").text("");
+                $("#response").html(
+                    "<b>Submited Successfully. Please refer this id "+ data.id +" for furthur queries.</b>"
+                );
+            }
+        }).fail(function () {
+            $("#processingMessage").text("");
+            $("#response").html(
+                "<b>Error While submiting. Please try again later</b>"
+            );
+        });
+    }
+
+    function getRegistrationStatus() {
+        $("#processingMessage").text("Processing Request");
+        $("#response").text("");
+        var contact = $('#reg_contact').val();
+        if(contact != ''){
+            $.get("http://localhost:3008/user/fetch?contact="+contact , function (data, status) {
+                $("#processingMessage").text("");
+                if(status == 'success'){
+                    $("#processingMessage").text("");
+                    $("#response").html(
+                        "<center><table><tr><th>Name</th><th>"+ data.name
+                        + "</th></tr> <tr><th>Email</th><th>" + data.email
+                        + "</th></tr> <tr><th>Contact</th><th>"+ data.contact
+                        + "</th></tr> <tr><th>Registration Type</th><th>" + data.r_type
+                        + "</th></tr> <tr><th>No Of Ticket</th><th>" + data.no_of_tickets
+                        + "</th></tr> <tr><th>Registration Id</th><th>" + data.reg_id
+                        + "</th></tr> <tr><th>Registered At</th><th>" + data.createdAt
+                        + "</table></center>"
+                    );
+                }
+            }).fail(function () {
+                $("#processingMessage").text("");
+                $("#response").html(
+                    "<b>Error While submiting. Please try again later</b>"
+                );
+            });
+        }
+    }
+</script>

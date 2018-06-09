@@ -1,0 +1,30 @@
+{
+  "name": "Bank_Details",
+  "version": "1.0.0",
+  "description": "Back Details retrevial",
+  "main": "server.js",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "co": "^4.6.0",
+    "co-request": "^1.0.0",
+    "co-wait": "0.0.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "handlebars": "^4.0.10",
+    "http-status-codes": "^1.2.0",
+    "lodash": "^4.17.4",
+    "mongoose": "^4.3.7",
+    "randomstring": "^1.1.5",
+    "request-promise": "^4.2.1",
+    "sha512": "0.0.1",
+    "stringify": "^5.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Rajat Kumar",
+  "license": "MIT"
+}
